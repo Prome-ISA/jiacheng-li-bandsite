@@ -17,59 +17,130 @@ const defaultComments = [
 ];
 
 
+// function displayComment(comment) {
+//   const commentsContainer = document.getElementById("comments-container");
+//   const commentDiv = document.createElement("div");
+//   commentDiv.classList.add("comment");
+//   commentDiv.innerHTML = `
+//   <div class="comment_list mt-30px">
+//   <img
+//     src="./assets/Images/Mohan-muruge.jpg"
+//     class="comment_list_img"
+//     alt=""
+//   />
+//   <div class="comment_list_right">
+//     <div class="comment_list_top">
+//       <div>${comment.name}</div>
+//       <div class="comment_list_date">${comment.timestamp.getFullYear()}-${(
+//     comment.timestamp.getMonth() + 1
+//   )
+//     .toString()
+//     .padStart(2, "0")}-${comment.timestamp
+//     .getDate()
+//     .toString()
+//     .padStart(2, "0")}</div>
+//     </div>
+//     <div class="mt-15px">
+//     ${comment.text}
+//     </div>
+//   </div>
+// </div>
+//     `;
+
+//   commentsContainer.appendChild(commentDiv);
+// }
+
+// document
+//   .getElementById("comment-form")
+//   .addEventListener("submit", function (event) {
+//     event.preventDefault(); 
+
+//     const nameInput = document.getElementById("name");
+//     const commentInput = document.getElementById("comment");
+
+//     const name = nameInput.value;
+//     const commentText = commentInput.value;
+//     const timestamp = new Date();
+
+//     const newComment = { name, timestamp, text: commentText };
+//     displayComment(newComment);
+
+//     nameInput.value = ""; 
+//     commentInput.value = "";
+
+//     nameInput.focus(); 
+//   });
+
+// window.onload = function () {
+//   defaultComments.forEach((comment) => {
+//     displayComment(comment);
+//   });
+// };
+
+
 function displayComment(comment) {
   const commentsContainer = document.getElementById("comments-container");
   const commentDiv = document.createElement("div");
   commentDiv.classList.add("comment");
-  commentDiv.innerHTML = `
-  <div class="comment_list mt-30px">
-  <img
-    src="./assets/Images/Mohan-muruge.jpg"
-    class="comment_list_img"
-    alt=""
-  />
-  <div class="comment_list_right">
-    <div class="comment_list_top">
-      <div>${comment.name}</div>
-      <div class="comment_list_date">${comment.timestamp.getFullYear()}-${(
-    comment.timestamp.getMonth() + 1
-  )
-    .toString()
-    .padStart(2, "0")}-${comment.timestamp
-    .getDate()
-    .toString()
-    .padStart(2, "0")}</div>
-    </div>
-    <div class="mt-15px">
-    ${comment.text}
-    </div>
-  </div>
-</div>
-    `;
 
-  commentsContainer.appendChild(commentDiv);
+  const commentListDiv = document.createElement("div");
+  commentListDiv.classList.add("comment_list");
+
+  const commentListImg = document.createElement("img");
+  commentListImg.src = "./assets/Images/Mohan-muruge.jpg";
+  commentListImg.classList.add("comment_list_img");
+  commentListImg.alt = "";
+
+  const commentListRightDiv = document.createElement("div");
+  commentListRightDiv.classList.add("comment_list_right");
+
+  const commentListTopDiv = document.createElement("div");
+  commentListTopDiv.classList.add("comment_list_top");
+
+  const nameDiv = document.createElement("div");
+  nameDiv.textContent = comment.name;
+
+  const dateDiv = document.createElement("div");
+  dateDiv.classList.add("comment_list_date");
+  dateDiv.textContent = `${comment.timestamp.getFullYear()}-${(comment.timestamp.getMonth() + 1).toString().padStart(2, "0")}-${comment.timestamp.getDate().toString().padStart(2, "0")}`;
+
+  const textDiv = document.createElement("div");
+  textDiv.classList.add("mt-15px");
+  textDiv.textContent = comment.text;
+
+  commentListTopDiv.appendChild(nameDiv);
+  commentListTopDiv.appendChild(dateDiv);
+  commentListRightDiv.appendChild(commentListTopDiv);
+  commentListRightDiv.appendChild(textDiv);
+  commentListDiv.appendChild(commentListImg);
+  commentListDiv.appendChild(commentListRightDiv);
+  commentDiv.appendChild(commentListDiv);
+
+  if (commentsContainer.firstChild) {
+    commentsContainer.insertBefore(commentDiv, commentsContainer.firstChild);
+  } else {
+    commentsContainer.appendChild(commentDiv);
+  }
 }
 
-document
-  .getElementById("comment-form")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); 
+document.getElementById("comment-form").addEventListener("submit", function (event) {
+  event.preventDefault();
 
-    const nameInput = document.getElementById("name");
-    const commentInput = document.getElementById("comment");
+  const nameInput = document.getElementById("name");
+  const commentInput = document.getElementById("comment");
 
-    const name = nameInput.value;
-    const commentText = commentInput.value;
-    const timestamp = new Date();
+  const name = nameInput.value;
+  const commentText = commentInput.value;
+  const timestamp = new Date();
 
-    const newComment = { name, timestamp, text: commentText };
-    displayComment(newComment);
+  const newComment = { name, timestamp, text: commentText };
+  displayComment(newComment);
 
-    nameInput.value = ""; 
-    commentInput.value = "";
+  nameInput.value = "";
+  commentInput.value = "";
 
-    nameInput.focus(); 
-  });
+  nameInput.focus();
+});
 
 window.onload = function () {
   defaultComments.forEach((comment) => {
