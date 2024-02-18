@@ -1,70 +1,115 @@
-const audio = document.getElementById("audio");
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const canvas = document.getElementById("waveform");
-const ctx = canvas.getContext("2d");
-let bufferLength = 256; // 设置缓冲区长度
+// data for table list
+const tableData = [
+  ['Mon Sept 09 2024', 'Ronald Lane', 'San Francisco, CA'],
+  ['Tue Sept 17 2024', 'Pier 3 East', 'San Francisco, CA'],
+  ['Sat Oct 12 2024', 'View Lounge', 'San Francisco, CA'],
+  ['Sat Nov 16 2024', 'Hyatt Agency', 'San Francisco, CA']
+];
 
-// 创建音频分析器
-const analyser = audioCtx.createAnalyser();
-analyser.fftSize = 512;
-bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
+// generating shouw objects in non-mobile views, then add to html
+const mainContainer = document.createElement('div');
+mainContainer.classList.add('mt-30px', 'max_table');
 
-// 连接音频源和分析器
-const source = audioCtx.createMediaElementSource(audio);
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
 
-function draw() {
-  const WIDTH = canvas.width;
-  const HEIGHT = canvas.height;
+const tableHeaderBox = document.createElement('div');
+tableHeaderBox.classList.add('table_header_box', 'px-10px');
 
-  requestAnimationFrame(draw);
+const headers = ['DATE', 'VENUE', 'LOCATION', ''];
+headers.forEach(headerText => {
+  const header = document.createElement('div');
+  header.classList.add('table_header', 'four-half');
+  header.textContent = headerText;
+  tableHeaderBox.appendChild(header);
+});
 
-  analyser.getByteTimeDomainData(dataArray);
+mainContainer.appendChild(tableHeaderBox);
 
-  ctx.fillStyle = "#f0f0f0";
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = "#007bff";
+tableData.forEach(data => {
+  const tableList = document.createElement('div');
+  tableList.classList.add('table_list', 'px-10px');
 
-  ctx.beginPath();
 
-  const sliceWidth = (WIDTH * 1.0) / bufferLength;
-  let x = 0;
+  data.forEach(itemText => {
+    const listItem = document.createElement('div');
+    listItem.classList.add('four-half');
+    listItem.textContent = itemText;
+    tableList.appendChild(listItem);
+  });
 
-  for (let i = 0; i < bufferLength; i++) {
-    const v = dataArray[i] / 128.0;
-    const y = (v * HEIGHT) / 2;
 
-    if (i === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
+  const buttonContainer = document.createElement('div');
+  buttonContainer.classList.add('four-half', 'justify-end');
 
-    x += sliceWidth;
-  }
+  // Create button
+  const button = document.createElement('button');
+  button.classList.add('content_btn');
+  button.textContent = 'BUY TICKETS';
 
-  ctx.lineTo(canvas.width, canvas.height / 2);
-  ctx.stroke();
+
+  buttonContainer.appendChild(button);
+  tableList.appendChild(buttonContainer);
+
+
+  mainContainer.appendChild(tableList);
+});
+
+const showsTitleNonMobil = document.getElementById("showsTitle")
+showsTitleNonMobil.appendChild(mainContainer);
+
+//code to generate the mobile shows
+
+function createEventElement(eventData) {
+  const [date, venue, location] = eventData;
+
+  let eventDiv = document.createElement("div");
+  eventDiv.classList.add("min_table_list");
+
+  let dateDiv = document.createElement("div");
+  dateDiv.classList.add("table_header");
+  dateDiv.textContent = "DATE";
+  eventDiv.appendChild(dateDiv);
+
+  let dateValueDiv = document.createElement("div");
+  dateValueDiv.classList.add("mt-10px", "text-gary");
+  dateValueDiv.textContent = date;
+  eventDiv.appendChild(dateValueDiv);
+
+  let venueDiv = document.createElement("div");
+  venueDiv.classList.add("table_header", "mt-15px");
+  venueDiv.textContent = "VENUE";
+  eventDiv.appendChild(venueDiv);
+
+  let venueValueDiv = document.createElement("div");
+  venueValueDiv.classList.add("mt-10px", "text-gary");
+  venueValueDiv.textContent = venue;
+  eventDiv.appendChild(venueValueDiv);
+
+  let locationDiv = document.createElement("div");
+  locationDiv.classList.add("table_header", "mt-15px");
+  locationDiv.textContent = "LOCATION";
+  eventDiv.appendChild(locationDiv);
+
+  let locationValueDiv = document.createElement("div");
+  locationValueDiv.classList.add("mt-10px", "text-gary");
+  locationValueDiv.textContent = location;
+  eventDiv.appendChild(locationValueDiv);
+
+  let button = document.createElement("button");
+  button.classList.add("content_btn", "mt-30px");
+  button.textContent = "BUY TICKETS";
+  eventDiv.appendChild(button);
+
+  return eventDiv;
 }
 
-draw();
+let container = document.createElement("div");
 
-const audioControl = document.getElementById("audio-control");
-let isPlaying = false;
 
-function toggleAudio() {
-  if (isPlaying) {
-    audio.pause();
-    audioControl.src = "../assets/Images/play.png";
-  } else {
-    audio.play();
-    audioControl.src = "../assets/Images/pause.png";
-  }
-  isPlaying = !isPlaying;
-}
+tableData.forEach(eventData => {
+  let eventElement = createEventElement(eventData);
+  container.appendChild(eventElement);
+});
 
-audioControl.addEventListener("click", toggleAudio);
+document.getElementById("showsMobile").appendChild(container);
+

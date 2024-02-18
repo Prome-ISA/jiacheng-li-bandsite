@@ -30,7 +30,7 @@
     <h2 class="hero__Text">Stripes of Yellow x</h2>
     <h2 class="hero__Text">For The Stings</h2>
 
-    <iframe  class="soundCloud" scrolling="no" frameborder="no" allow="autoplay"
+    <iframe class="soundCloud" allow="autoplay"
       src=" https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293&amp;{ ADD YOUR PARAMETERS HERE }">
     </iframe>
 
@@ -39,87 +39,15 @@
 
   <section class="gallery bg-white">
     <h1 class="px-10px min_title">Shows</h1>
-
-    <div class="mt-30px max_table">
-      <div class="table_header_box px-10px">
-        <div class="table_header four-half">DATE</div>
-        <div class="table_header four-half">VENUE</div>
-        <div class="table_header four-half">LOCATION</div>
-        <div class="table_header four-half"></div>
-      </div>
-
-      <div class="table_list px-10px">
-        <div class="four-half">Mon Sept 09 2024</div>
-        <div class="four-half">Ronald Lane</div>
-        <div class="four-half">San Francisco, CA</div>
-        <div class="four-half justify-end">
-          <button class="content_btn">BUY TICKETS</button>
-        </div>
-      </div>
-      <div class="table_list px-10px">
-        <div class="four-half">Tue Sept 17 2024</div>
-        <div class="four-half">Pier 3 East</div>
-        <div class="four-half">San Francisco, CA</div>
-        <div class="four-half justify-end">
-          <button class="content_btn">BUY TICKETS</button>
-        </div>
-      </div>
-      <div class="table_list px-10px">
-        <div class="four-half">Sat Oct 12 2024</div>
-        <div class="four-half">View Lounge</div>
-        <div class="four-half">San Francisco, CA</div>
-        <div class="four-half justify-end">
-          <button class="content_btn">BUY TICKETS</button>
-        </div>
-      </div>
-      <div class="table_list px-10px">
-        <div class="four-half">Sat Nov 16 2024</div>
-        <div class="four-half">Hyatt Agency</div>
-        <div class="four-half">San Francisco, CA</div>
-        <div class="four-half justify-end">
-          <button class="content_btn">BUY TICKETS</button>
-        </div>
-      </div>
-    </div>
-    <div class="mt-30px min_table">
-      <div class="min_table_list">
-        <div class="table_header">DATE</div>
-        <div class="mt-10px text-gary">Mon Sept 09 2024</div>
-        <div class="table_header mt-15px">VENUE</div>
-        <div class="mt-10px text-gary">Ronald Lane</div>
-        <div class="table_header mt-15px">LOCATION</div>
-        <div class="mt-10px text-gary">San Francisco, CA</div>
-        <button class="content_btn mt-30px">BUY TICKETS</button>
-      </div>
-      <div class="min_table_list">
-        <div class="table_header">DATE</div>
-        <div class="mt-10px text-gary">Tue Sept 17 2024</div>
-        <div class="table_header mt-15px">VENUE</div>
-        <div class="mt-10px text-gary">Pier 3 East</div>
-        <div class="table_header mt-15px">LOCATION</div>
-        <div class="mt-10px text-gary">San Francisco, CA</div>
-        <button class="content_btn mt-30px">BUY TICKETS</button>
-      </div>
-      <div class="min_table_list">
-        <div class="table_header">DATE</div>
-        <div class="mt-10px text-gary">Sat Oct 12 2024</div>
-        <div class="table_header mt-15px">VENUE</div>
-        <div class="mt-10px text-gary">View Lounge</div>
-        <div class="table_header mt-15px">LOCATION</div>
-        <div class="mt-10px text-gary">San Francisco, CA</div>
-        <button class="content_btn mt-30px">BUY TICKETS</button>
-      </div>
-      <div class="min_table_list">
-        <div class="table_header">DATE</div>
-        <div class="mt-10px text-gary">Sat Nov 16 2024</div>
-        <div class="table_header mt-15px">VENUE</div>
-        <div class="mt-10px text-gary">Hyatt Agency</div>
-        <div class="table_header mt-15px">LOCATION</div>
-        <div class="mt-10px text-gary">San Francisco, CA</div>
-        <button class="content_btn mt-30px">BUY TICKETS</button>
-      </div>
-    </div>
+    <!-- non-mobile shows table code  -->
+    <div id="showsTitle" class="mt-30px max_table"></div>
   </section>
+
+
+
+  <!-- mobile shows table code  -->
+  <div id="showsMobile" class="mt-30px min_table"></div>
+
 
   <footer class="footer">
     <section class="footer__topBanner">
@@ -135,7 +63,7 @@
       <a href="https://www.twitter.com"><img class="footer__icons" src="../assets/Icons/SVG/Icon-twitter.svg"
           alt="Twitter" /></a>
     </section>
-    
+
     <section>
       <p>The Bees Knees Management</p>
       <p>
