@@ -1,76 +1,95 @@
-class BandSiteApi {
-    constructor(apiKey) {
-        this.apiKey = apiKey;
-        this.baseUrl = 'https://api.example.com'; // Replace with your actual base API URL
-        this.showsApiUrl = 'https://api.example.com/shows'; // Replace with the actual shows API URL
-    }
-
-    async postComment(comment) {
-        try {
-            const response = await fetch(`${this.baseUrl}/comments`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.apiKey}`
-                },
-                body: JSON.stringify(comment)
-            });
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error posting comment:', error);
+// {
+//         "api_key": "0ebab66d-a304-440e-a783-0111f784a4bd"
+//     }
+export default class BandSiteApi {
+        constructor(apiKey) {
+            this.apiKey = apiKey;
+            this.baseUrl = 'https://unit-2-project-api-25c1595833b2.herokuapp.com'; // Update with provided API URL
         }
-    }
-
-    async getComments() {
-        try {
-            const response = await fetch(`${this.baseUrl}/comments`, {
-                headers: {
-                    'Authorization': `Bearer ${this.apiKey}`
+    
+        async register() {
+            try {
+                const response = await fetch(`${this.baseUrl}/register`);
+                if (!response.ok) {
+                    throw new Error('Failed to register');
                 }
-            });
-            let comments = await response.json();
-            // Sort comments from newest to oldest
-            comments = comments.sort((a, b) => new Date(b.date) - new Date(a.date));
-            return comments;
-        } catch (error) {
-            console.error('Error getting comments:', error);
-            return [];
+                const data = await response.json();
+                this.apiKey = data.api_key;
+                return this.apiKey;
+            } catch (error) {
+                console.error('Error registering:', error);
+                throw error;
+            }
         }
-    }
-
-    async getShows() {
-        try {
-            const response = await fetch(this.showsApiUrl, {
-                headers: {
-                    'Authorization': `Bearer ${this.apiKey}`
+    
+        async postComment(comment) {
+            try {
+                const response = await fetch(`${this.baseUrl}/comments?api_key=${this.apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(comment)
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to post comment');
                 }
-            });
-            const shows = await response.json();
-            return shows;
-        } catch (error) {
-            console.error('Error getting shows:', error);
-            return [];
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error posting comment:', error);
+                throw error;
+            }
         }
-    }
+    
+        async getComments() {
+            try {
+                const response = await fetch(`${this.baseUrl}/comments?api_key=${this.apiKey}`);
+                if (!response.ok) {
+                    throw new Error('Failed to get comments');
+                }
+                const comments = await response.json();
+                return comments;
+            } catch (error) {
+                console.error('Error getting comments:', error);
+                throw error;
+            }
+        }
+    
+        async getShows() {
+            try {
+                const response = await fetch(`${this.baseUrl}/showdates?api_key=${this.apiKey}`);
+                if (!response.ok) {
+                    throw new Error('Failed to get shows');
+                }
+                const shows = await response.json();
+                return shows;
+            } catch (error) {
+                console.error('Error getting shows:', error);
+                throw error;
+            }
+        }
 }
+  
+    // test codes
+    // (async () => {
+    //     try {
+    //         const bandSiteApi = new BandSiteApi();
+    //         const apiKey = await bandSiteApi.register();
+            
+    //         const comment = { name: 'Nigel', comment: 'What a great band.' };
+    //         const postedComment = await bandSiteApi.postComment(comment);
+    //         console.log('Posted comment:', postedComment);
+            
+    //         const comments = await bandSiteApi.getComments();
+    //         console.log('Comments:', comments);
+            
+    //         const shows = await bandSiteApi.getShows();
+    //         console.log('Shows:', shows);
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // })();
 
-// Example usage:
-const apiKey = 'your-api-key';
-const bandSiteApi = new BandSiteApi(apiKey);
 
-// Example postComment usage:
-const comment = { text: 'Great show!', user: 'John Doe' };
-bandSiteApi.postComment(comment)
-    .then(data => console.log('Posted comment:', data))
-    .catch(error => console.error('Error:', error));
 
-// Example getComments usage:
-bandSiteApi.getComments()
-    .then(comments => console.log('Comments:', comments))
-    .catch(error => console.error('Error:', error));
-
-// Example getShows usage:
-bandSiteApi.getShows()
-    .then(shows => console.log('Shows:', shows))
-    .catch(error => console.error('Error:', error));
