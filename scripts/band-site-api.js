@@ -91,5 +91,5 @@ export default class BandSiteApi {
     //     }
     // })();
 
-
+    let showsApi = new BandSiteApi('0ebab66d-a304-440e-a783-0111f784a4bd')
 
